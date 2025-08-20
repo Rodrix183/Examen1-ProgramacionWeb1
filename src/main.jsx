@@ -20,6 +20,35 @@ function App() {
     });
   };
 
+const formatMoney = (n) =>
+    new Intl.NumberFormat("es-HN", {
+      style: "currency",
+      currency: "HNL",
+      minimumFractionDigits: 2,
+    }).format(n || 0);
+
+ const validar = () => {
+    // 1) No vacíos
+    if (precios.some((p) => p === "")) {
+      Swal.fire({
+        icon: "warning",
+        title: "Campos incompletos",
+        text: "Por favor, llene los 5 precios.",
+      });
+      return false;
+    }
+    // 2) Numéricos y >= 0
+    const nums = precios.map((p) => Number(p));
+    if (nums.some((n) => isNaN(n) || n < 0)) {
+      Swal.fire({
+        icon: "error",
+        title: "Valores inválidos",
+        text: "Solo se aceptan valores numéricos mayores o iguales a 0.",
+      });
+      return false;
+    }
+    return true;
+  };
 
 
 
